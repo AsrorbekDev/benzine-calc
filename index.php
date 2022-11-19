@@ -108,7 +108,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     if (isset($data)) {
                         echo 'Siz mashinaga ' . $data['benzin'] . 'litr quydingiz. Endi siz ' . $data['benzin'] * $tesla::DEFAULT_BENZINE .'km yura olasiz.<br>
                                '.$data['km'].' km kiritdingiz va ' . $data['tezlik']. 'km/s tezlikda yurishni kirtingiz<br>';
-                        echo $tesla->drive((int)$data['km'],(int)$data['tezlik']);
+                        echo $tesla->drive((int)(float)$data['km'],(int)(float)$data['tezlik']);
                         echo "<br>". $tesla->showBenzine();
 
                     }

@@ -23,7 +23,7 @@ class Car
         return "Mashinada " . $this->benzine . " litr benzin bor";
     }
 
-    public function drive(int $km, int $speed): string|int
+    public function drive(int $km, int $speed): string|int|float
     {
         $this->used = 1;
         $this->speed = $speed;
