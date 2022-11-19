@@ -2,15 +2,9 @@
 
 include './Car.php';
 $tesla = new Car();
-//$tesla->addBenzine(3);
-//$tesla->drive(30,100);
-//echo $tesla->policeDanger();
-//echo "<hr><br>";
-//echo $tesla->showBenzine();
-//exit();
 
-$benzin = $km = $tezlik = "";
-$benzin_err = $km_err = $tezlik_err = "";
+$benzin = $km = "";
+$benzin_err = $km_err = "";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
@@ -32,20 +26,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $km = $input_address;
     }
 
-    $input_salary = trim($_POST["speed"]);
-    if (empty($input_salary)) {
-        $tezlik_err = "Iltimos tezlikni kiriting.";
-    } elseif (!filter_var($input_salary, FILTER_VALIDATE_INT)) {
-        $tezlik_err = "Faqat son bo'lishi kerak.";
-    } else {
-        $tezlik = $input_salary;
-    }
-
-    if (!empty($benzin && $km && $tezlik)) {
+    if (!empty($benzin && $km)) {
         $data = [
             'benzin' => $tesla->addBenzine((int)$benzin),
-            'km' => $km,
-            'tezlik' => $tezlik
+            'km'     => $km,
         ];
     }
 }
@@ -79,38 +63,34 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <form method="post">
                     <div class="form-group">
                         <label for="benzine">Benzin</label>
-                        <input type="text" name="benzine" placeholder="<?= $benzin_err ?>"
+                        <input type="number" name="benzine" placeholder="<?= $benzin_err ?>"
                                class="form-control <?= (!empty($benzin_err)) ? 'is-invalid' : '' ?>"
-                               value="<?= $benzin ?>" id="benzine">
+                               value="<?= $benzin ?>" id="benzine" min="0" max="200">
                         <span class="invalid-feedback"><?= $benzin_err ?></span>
                     </div>
                     <div class="form-group">
                         <label for="km">Km</label>
-                        <input type="text" name="km" placeholder="<?= $km_err ?>"
+                        <input type="number" name="km" placeholder="<?= $km_err ?>"
                                class="form-control <?= (!empty($km_err)) ? 'is-invalid' : '' ?>"
-                               value="<?= $km ?>" id="km">
+                               value="<?= $km ?>" id="km" min="0" max="500">
                         <span class="invalid-feedback"><?= $km_err ?></span>
-                    </div>
-                    <div class="form-group">
-                        <label for="speed">Tezlik</label>
-                        <input type="text" name="speed" placeholder="<?= $tezlik_err ?>"
-                               class="form-control <?= (!empty($tezlik_err)) ? 'is-invalid' : '' ?>"
-                               value="<?= $tezlik ?>" id="speed">
-                        <span class="invalid-feedback"><?= $tezlik_err ?></span>
                     </div>
                     <br>
                     <button type="submit" class="btn btn-primary">Tayyor</button>
-                    <a href="javascript:history.back()" class="btn btn-outline-secondary">Bekor qilish</a>
+                    <a href="/" class="btn btn-outline-secondary">Bekor qilish</a>
                 </form>
                 <br>
                 <div content="col-md-10">
                     <?php
                     if (isset($data)) {
-                        echo 'Siz mashinaga ' . $data['benzin'] . 'litr quydingiz. Endi siz ' . $data['benzin'] * $tesla::DEFAULT_BENZINE .'km yura olasiz.<br>
-                               '.$data['km'].' km kiritdingiz va ' . $data['tezlik']. 'km/s tezlikda yurishni kirtingiz<br>';
-                        echo $tesla->drive((int)(float)$data['km'],(int)(float)$data['tezlik']);
-                        echo "<br>". $tesla->showBenzine();
-
+                        if ($data['km'] > 0 && $data['benzin'] > 0) {
+                            echo 'Siz mashinaga ' . $data['benzin'] . 'litr quydingiz. Endi siz ' . $data['benzin'] * $tesla::DEFAULT_BENZINE . 'km yura olasiz.<br>
+                               ' . $data['km'] . ' km kiritdingiz<br>';
+                            echo $tesla->drive($data['km']);
+                            echo "<br>" . $tesla->showBenzine();
+                        } else {
+                            echo 'Manfiy son mumkin emas!';
+                        }
                     }
                     ?>
                 </div>
