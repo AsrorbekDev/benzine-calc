@@ -3,18 +3,18 @@
 include './Car.php';
 $tesla = new Car();
 
-$benzin = $km = "";
-$benzin_err = $km_err = "";
+$benzine = $km = "";
+$benzine_err = $km_err = "";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
     $input_name = trim($_POST["benzine"]);
     if (empty($input_name)) {
-        $benzin_err = "Iltimos benzinni kiriting.";
+        $benzine_err = "Iltimos benzinni kiriting.";
     } elseif (!filter_var($input_name, FILTER_VALIDATE_INT)) {
-        $benzin_err = "Faqat son bo'lishi kerak.";
+        $benzine_err = "Faqat son bo'lishi kerak.";
     } else {
-        $benzin = $input_name;
+        $benzine = $input_name;
     }
 
     $input_address = trim($_POST["km"]);
@@ -26,10 +26,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         $km = $input_address;
     }
 
-    if (!empty($benzin && $km)) {
+    if (!empty($benzine && $km)) {
         $data = [
-            'benzin' => $tesla->addBenzine((int)$benzin),
-            'km'     => $km,
+            'benzine' => $tesla->addBenzine((int)$benzine),
+            'km'      => $km,
         ];
     }
 }
@@ -63,10 +63,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <form method="post">
                     <div class="form-group">
                         <label for="benzine">Benzin</label>
-                        <input type="number" name="benzine" placeholder="<?= $benzin_err ?>"
-                               class="form-control <?= (!empty($benzin_err)) ? 'is-invalid' : '' ?>"
-                               value="<?= $benzin ?>" id="benzine" min="0" max="200">
-                        <span class="invalid-feedback"><?= $benzin_err ?></span>
+                        <input type="number" name="benzine" placeholder="<?= $benzine_err ?>"
+                               class="form-control <?= (!empty($benzine_err)) ? 'is-invalid' : '' ?>"
+                               value="<?= $benzine ?>" id="benzine" min="0" max="200">
+                        <span class="invalid-feedback"><?= $benzine_err ?></span>
                     </div>
                     <div class="form-group">
                         <label for="km">Km</label>
@@ -83,14 +83,15 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 <div content="col-md-10">
                     <?php
                     if (isset($data)) {
-                        if ($data['km'] > 0 && $data['benzin'] > 0) {
-                            echo 'Siz mashinaga ' . $data['benzin'] . 'litr quydingiz. Endi siz ' . $data['benzin'] * $tesla::DEFAULT_BENZINE . 'km yura olasiz.<br>
+                        if ($data['km'] > 0 && $data['benzine'] > 0) {
+                            echo 'Siz mashinaga ' . $data['benzine'] . 'litr quydingiz. Endi siz ' . $data['benzine'] * $tesla::DEFAULT_BENZINE . 'km yura olasiz.<br>
                                ' . $data['km'] . ' km kiritdingiz<br>';
-                            echo $tesla->drive($data['km']);
+                            $tesla->drive($data['km']);
                             echo "<br>" . $tesla->showBenzine();
                         } else {
                             echo 'Manfiy son mumkin emas!';
                         }
+                        exit();
                     }
                     ?>
                 </div>

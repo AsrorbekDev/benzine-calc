@@ -25,8 +25,7 @@ class Car
         if ($km > $this->benzine * self::DEFAULT_BENZINE) {
             echo "Benzin yetmaydi<br>";
         }
-
-         $this->benzine -= ($km / self::DEFAULT_BENZINE);
+        $this->benzine -= ($km / self::DEFAULT_BENZINE);
     }
 
 }
