@@ -8,22 +8,22 @@ $benzine_err = $km_err = "";
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
-    $input_name = trim($_POST["benzine"]);
-    if (empty($input_name)) {
+    $input_benzine = trim($_POST["benzine"]);
+    if (empty($input_benzine)) {
         $benzine_err = "Iltimos benzinni kiriting.";
-    } elseif (!filter_var($input_name, FILTER_VALIDATE_INT)) {
+    } elseif (!filter_var($input_benzine, FILTER_VALIDATE_INT)) {
         $benzine_err = "Faqat son bo'lishi kerak.";
     } else {
-        $benzine = $input_name;
+        $benzine = $input_benzine;
     }
 
-    $input_address = trim($_POST["km"]);
-    if (empty($input_address)) {
+    $input_km = trim($_POST["km"]);
+    if (empty($input_km)) {
         $km_err = "Iltimos km'ni kiriting.";
-    } elseif (!filter_var($input_address, FILTER_VALIDATE_INT)) {
+    } elseif (!filter_var($input_km, FILTER_VALIDATE_INT)) {
         $km_err = "Faqat son bo'lishi kerak.";
     } else {
-        $km = $input_address;
+        $km = $input_km;
     }
 
     if (!empty($benzine && $km)) {
