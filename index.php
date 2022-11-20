@@ -72,7 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         <label for="km">Km</label>
                         <input type="number" name="km" placeholder="<?= $km_err ?>"
                                class="form-control <?= (!empty($km_err)) ? 'is-invalid' : '' ?>"
-                               value="<?= $km ?>" id="km" min="0" max="500">
+                               value="<?= $km ?>" id="km" min="0">
                         <span class="invalid-feedback"><?= $km_err ?></span>
                     </div>
                     <br>
@@ -91,7 +91,6 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                         } else {
                             echo 'Manfiy son mumkin emas!';
                         }
-                        exit();
                     }
                     ?>
                 </div>
